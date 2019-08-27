@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="da">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        .firkant {
+            background-color: green;
+            width: 100px;
+            height: 100px;
+            line-height: 100px;
+            text-align: center;
+
+        }
+
+        .cirkel {
+            height: 100px;
+            width: 100px;
+            background-color: red;
+            border-radius: 50%;
+            line-height: 100px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="firkant"></div>
+    <div class="cirkel"></div>
+    <script>
+        // Jeg vælger min class firkant og cirkel, på firkant lægger jeg et textcontent ind på classen. På cirklen indsætter jeg et HTML p-tag.
+        document.querySelector(".firkant").innerHTML = "<img src=http://mabe-kea.dk/E19/pics/frog.png alt=Frog>";
+        document.querySelector(".cirkel").innerHTML = "<img src=http://mabe-kea.dk/E19/pics/pig.png alt=Pig>";
+    </script>
+</body></html>

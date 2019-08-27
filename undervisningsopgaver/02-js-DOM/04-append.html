@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="da">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        .firkant {
+            background-color: green;
+            width: 200px;
+            height: 200px;
+            line-height: 200px;
+            text-align: center;
+
+        }
+
+        .cirkel {
+            height: 200px;
+            width: 200px;
+            background-color: red;
+            border-radius: 50%;
+            line-height: 200px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="firkant"></div>
+    <div class="cirkel"></div>
+    <script>
+        //
+
+        let firkant = document.querySelector(".firkant")
+        let cirkel = document.querySelector(".cirkel")
+
+        firkant.innerHTML = "<img src=http://mabe-kea.dk/E19/pics/frog.png alt=Frog>";
+        cirkel.innerHTML = "<img src=http://mabe-kea.dk/E19/pics/pig.png alt=Pig>";
+
+        //Jeg laver en variable fox som laver et img-tag, derefter peger jeg på den variable og tilføjer en src til img-tagget. Til sidst peger jeg på min div med classen cirkel og bruger appendChild sammen med variablen fox som nu indeholder billedet -> det medføre at billedet det ligger i min variable bliver tilføjet div'en (containeren).
+
+        let fox = document.createElement("img");
+        fox.src = "http://mabe-kea.dk/E19/pics/fox.png";
+        fox.alt = "Fox";
+        cirkel.appendChild(fox);
+    </script>
+</body></html>

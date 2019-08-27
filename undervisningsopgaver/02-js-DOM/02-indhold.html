@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="da">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        .firkant {
+            background-color: green;
+            width: 300px;
+            height: 300px;
+            line-height: 300px;
+            text-align: center;
+
+        }
+
+        .cirkel {
+            height: 300px;
+            width: 300px;
+            background-color: red;
+            border-radius: 50%;
+            line-height: 300px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="firkant"></div>
+    <div class="cirkel"></div>
+    <script>
+        // Jeg vælger min class firkant og cirkel, på firkant lægger jeg et textcontent ind på classen. På cirklen indsætter jeg et HTML p-tag.
+        document.querySelector(".firkant").textContent = "GRØN FIRKANT";
+        document.querySelector(".cirkel").innerHTML = "<p>RØD CIRKEL</p>";
+    </script>
+</body></html>

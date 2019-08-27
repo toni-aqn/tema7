@@ -24,6 +24,8 @@
             line-height: 100px;
             text-align: center;
         }
+
+        transition {}
     </style>
 </head>
 
@@ -56,12 +58,21 @@
                 let firkantStart = firkant.innerHTML;
                 firkant.innerHTML = cirkel.innerHTML;
                 cirkel.innerHTML = firkantStart;
+
+                firkant.style.transition = "1.5s";
+                firkant.style.backgroundColor = "blue";
+                cirkel.style.transition = "1.5s";
+                cirkel.style.backgroundColor = "purple";
             }
 
             cirkel.addEventListener("click", stopFlyt);
 
             function stopFlyt() {
                 firkant.removeEventListener("click", flyt);
+                firkant.style.transition = "1.5s";
+                firkant.style.backgroundColor = "green";
+                cirkel.style.transition = "1.5s";
+                cirkel.style.backgroundColor = "red";
             }
         }
     </script>

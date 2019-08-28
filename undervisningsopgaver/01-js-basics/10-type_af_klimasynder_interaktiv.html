@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="da">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+
+    <p>Hvor mange timer er din flyrejse?</p>
+    <input type="text" id="timer">
+    <button>Klik og kig i console</button>
+
+    <script>
+        //Jeg har lavet en knap der kalder funktionen buttonClicked. Funktionen putter værdien som brugeren har skrevet ind i en variabel 'antalTimer', den bliver brugt i en ny variabel co2UdledtIKgVedFlyrejse som regner ud hvor meget co2 der udledes. Til sidst er der lavet en if / else statement som skriver i console loggen hvis værdien ikke er et tal og ellers hvor meget der udledes.
+
+        document.querySelector("button").addEventListener("click", buttonClicked);
+
+        function buttonClicked() {
+
+            let antalTimer = document.querySelector("#timer").value;
+
+            let co2UdledtIKgVedFlyrejse = antalTimer * 109;
+
+            if (isNaN(co2UdledtIKgVedFlyrejse)) {
+                console.log("Antallet af timer er ikke et tal");
+            } else {
+                console.log(`Ved ${antalTimer} timers flyrejse har du udledt ${co2UdledtIKgVedFlyrejse} kg CO2`);
+            }
+        }
+    </script>
+</body></html>

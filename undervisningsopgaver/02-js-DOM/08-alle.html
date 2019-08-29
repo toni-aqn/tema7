@@ -15,7 +15,9 @@
 
 </head>
 
+
 <body>
+    <button>RESET</button>
     <h3>En</h3>
     <p>Gochujang blue bottle iPhone quinoa, umami lumbersexual semiotics disrupt coloring book squid. Tilde banjo flannel PBR&B umami vape plaid occupy prism lumbersexual man braid. </p>
     <h3>Lille</h3>
@@ -29,5 +31,24 @@
 
 
     <script>
+        document.addEventListener("DOMContentLoaded", start);
+
+        function start() {
+
+            let alleP = document.querySelectorAll("p");
+            alleP.forEach(p => {
+                p.addEventListener("click", () => {
+
+                    p.classList.add("typo");
+                })
+            })
+
+
+            document.querySelector("button").addEventListener("click", () => {
+                alleP.forEach(p => {
+                    p.classList.remove("typo");
+                })
+            })
+        }
     </script>
 </body></html>

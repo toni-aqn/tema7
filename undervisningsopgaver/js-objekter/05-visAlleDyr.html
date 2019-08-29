@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>02-visDyr</title>
+</head>
+
+<body>
+    <article>
+
+    </article>
+    <script>
+        document.addEventListener("DOMContentLoaded", start);
+
+
+
+        let dyr = [{
+            "navn": "gris",
+            "type": "pattedyr",
+            "billede": "http://mabe-kea.dk/E19/pics/pig.png",
+            "levested": "svinefarme"
+        }, {
+            "navn": "frø",
+            "type": "amfibie",
+            "billede": "http://mabe-kea.dk/E19/pics/frog.png",
+            "levested": "sø"
+        }, {
+            "navn": "ræv",
+            "type": "pattedyr",
+            "billede": "http://mabe-kea.dk/E19/pics/fox.png",
+            "levested": "skov"
+        }, {
+            "navn": "sild",
+            "type": "fisk",
+            "billede": "http://mabe-kea.dk/E19/pics/sild.png",
+            "levested": "hav"
+        }, {
+            "navn": "krokodille",
+            "type": "krybdyr",
+            "billede": "http://mabe-kea.dk/E19/pics/kroko.png",
+            "levested": "sump"
+        }];
+
+        function start() {
+            console.log("START");
+
+            const dyrListe = document.querySelector("article");
+
+            dyr.forEach(enkeltDyr => {
+                dyrListe.innerHTML += `<p> ${enkeltDyr.navn} ${enkeltDyr.type} ${enkeltDyr.levested} </p>`
+            });
+
+            console.log(dyr);
+        }
+
+    </script>
+</body>
+
+</html>

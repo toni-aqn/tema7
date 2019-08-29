@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="da">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+
+    <article>
+        <h1></h1>
+        <p class="email"></p>
+        <img src="" alt="">
+    </article>
+
+    <script>
+        const person = {
+            "fornavn": "Toni",
+            "efternavn": "Nguyen",
+            "email": "toni-aqn@gmail.com",
+            "billede": "https://scontent-frt3-2.xx.fbcdn.net/v/t1.0-9/21768162_10214925299670537_5889669475465680983_n.jpg?_nc_cat=110&_nc_oc=AQniBGZgFTL1Ab8fTjXdGoUq0FzN1GkGUxlOkrqRyICZFR7kr9bkPvhJS82bVz7nLmI&_nc_ht=scontent-frt3-2.xx&oh=450a0ed9bf2f537413d57d4b0ebbbf53&oe=5E0F1C92"
+        }
+
+        let tekst = "Mit fornavn er " + person.fornavn + " og mit efternavn er " + person.efternavn;
+
+        let tekst2 = `Mit fornavn er ${person.fornavn} og mit efternavn er ${person.efternavn}`;
+
+        const navneContainer = document.querySelector("h1");
+        const emailContainer = document.querySelector("p");
+        const billedContainer =
+            document.querySelector("img");
+
+        navneContainer.textContent = `${person.fornavn} ${person.efternavn}`;
+
+        emailContainer.textContent = `${person.email}`;
+
+        billedContainer.src = person.billede;
+
+        console.log(tekst);
+        console.log(tekst2);
+    </script>
+</body></html>

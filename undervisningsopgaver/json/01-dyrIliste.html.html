@@ -27,7 +27,6 @@
 
 
         async function getJson() {
-            console.log("Get json");
             let jsonData = await fetch("dyr.json");
             console.log(jsonData);
             alleDyr = await jsonData.json();
@@ -47,7 +46,7 @@
                 klon.querySelector("#type").textContent = dyr.type;
                 klon.querySelector("#levested").href += dyr.levested;
                 dest.appendChild(klon);
-            })
+            });
         }
     </script>
 </body></html>

@@ -18,6 +18,11 @@
             background-color: #66737e;
         }
 
+        h1 {
+            text-align: center;
+            color: #b9dcff;
+        }
+
         nav {
             text-align: center;
             padding-bottom: 8px;
@@ -42,7 +47,7 @@
         }
 
         .valgt {
-            background-color: red;
+            background-color: green;
         }
 
         /* TABLET */
@@ -66,7 +71,7 @@
 <body>
 
 
-    <h1></h1>
+    <h1>Alle</h1>
     <nav>
 
         <button class="filter valgt" data-køn="alle">Alle</button>
@@ -134,9 +139,14 @@
 
         function filtrering() {
 
-            console.log("Filtrering")
+            console.log("Filtrering");
             filter = this.dataset.køn;
+            document.querySelector("h1").textContent = this.textContent;
 
+            document.querySelectorAll(".filter").forEach(knap => {
+                knap.classList.remove("valgt");
+            });
+            this.classList.add("valgt");
             visPersonliste();
         }
     </script>

@@ -79,6 +79,14 @@
         <button class="filter" data-køn="k">Kvinder</button>
         <button class="filter" data-køn="andet">Andet</button>
 
+        <button class="filter" data-hold="a">Hold A</button>
+        <button class="filter" data-hold="b">Hold B</button>
+
+        <button class="filter" data-køn="m" data-hold="a">Mænd Hold A</button>
+        <button class="filter" data-køn="m" data-hold="b">Mænd Hold B</button>
+        <button class="filter" data-køn="k" data-hold="a">Kvinder Hold A</button>
+        <button class="filter" data-køn="k" data-hold="b">Kvinder Hold B</button>
+
     </nav>
 
     <template>
@@ -95,6 +103,7 @@
         const dest = document.querySelector(".modtager");
         const temp = document.querySelector("template");
         let filter = "alle";
+        let filterHold = "";
 
 
         document.addEventListener("DOMContentLoaded", getJson);
@@ -118,7 +127,7 @@
             dest.innerHTML = "";
 
             personliste.feed.entry.forEach(person => {
-                if (filter == "alle" || filter == person.gsx$køn.$t) {
+                if (filter == "alle" || filter == person.gsx$køn.$t || filterHold == person.gsx$hold.$t || (filter == person.gsx$køn.$t && filterHold == person.gsx$hold.$t)) {
                     const klon = temp.cloneNode(true).content;
                     klon.querySelector("h2").textContent = person.gsx$navn.$t;
                     klon.querySelector("img").src = person.gsx$billede.$t;
@@ -141,12 +150,15 @@
 
             console.log("Filtrering");
             filter = this.dataset.køn;
+            filterHold = this.dataset.hold;
             document.querySelector("h1").textContent = this.textContent;
 
             document.querySelectorAll(".filter").forEach(knap => {
                 knap.classList.remove("valgt");
             });
             this.classList.add("valgt");
+            console.log(`${filter} og ${filterHold}`);
+
             visPersonliste();
         }
     </script>

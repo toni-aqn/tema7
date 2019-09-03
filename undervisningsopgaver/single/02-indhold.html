@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Visalle</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 15px;
+            width: 90%;
+        }
+
+        body {
+            background-color: #66737e;
+        }
+
+        h1 {
+            text-align: center;
+            color: #b9dcff;
+        }
+
+        menu {
+            text-align: center;
+            padding-bottom: 8px;
+        }
+
+        /* MOBILE */
+
+        .modtager {
+            display: grid;
+            grid-gap: 20px;
+            grid-template-columns: repeat (1, 1fr);
+        }
+
+        article {
+            border: 0.5px solid black;
+            padding: 0px 10px;
+            background-color: #dde3ed;
+            text-align: center;
+        }
+
+        .valgt {
+            background-color: green;
+        }
+
+        #popup {
+            position: fixed;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(248, 146, 146, 0.6);
+        }
+
+        .indhold {
+            width: 70vw;
+            min-height: 50vh;
+        }
+
+        /* TABLET */
+
+        @media screen and (min-width: 600px) {
+            .modtager {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            /* DESKTOP */
+
+            @media screen and (min-width: 992px) {
+                .modtager {
+                    grid-template-columns: repeat(3, 1fr);
+                }
+            }
+    </style>
+</head>
+
+
+<body>
+
+
+    <h1>Alle</h1>
+    <nav class="menu">
+
+        <button class="filter valgt" data-køn="alle">Alle</button>
+        <button class="filter" data-køn="m">Mænd</button>
+        <button class="filter" data-køn="k">Kvinder</button>
+        <button class="filter" data-køn="andet">Andet</button>
+
+    </nav>
+
+    <template>
+        <article>
+            <h2></h2>
+            <a class="github" target="_blank" href=""></a>
+            <img src="" alt="">
+
+        </article>
+    </template>
+    <section class="modtager"></section>
+
+    <div id="popup">
+        <button class="luk">X</button>
+        <section class="indhold">
+            <article class="enkeltPerson">
+                <h2></h2>
+                <img class="billede" src="" alt="">
+                <p>Github: <a class="github" href=""></a></p>
+            </article>
+        </section>
+    </div>
+    <script>
+        let personliste = [];
+        const dest = document.querySelector(".modtager");
+        const temp = document.querySelector("template");
+        let filter = "alle";
+
+
+        document.addEventListener("DOMContentLoaded", getJson);
+
+
+        async function getJson() {
+            let jsonData = await fetch("https://spreadsheets.google.com/feeds/list/1Xge7slZ9dEOTCn1Yxl3OE4xgvrXOL8Y_iu3WN1yGB1U/od6/public/values?alt=json");
+            console.log(jsonData);
+            personliste = await jsonData.json();
+            console.log(personliste);
+            visPersonliste();
+            addEventListenersToButtons();
+
+        }
+
+
+
+        function visPersonliste() {
+
+            console.log("visPersonliste kaldt / indhold indsat i template");
+            dest.innerHTML = "";
+
+            personliste.feed.entry.forEach(person => {
+                if (filter == "alle" || filter == person.gsx$køn.$t) {
+                    const klon = temp.cloneNode(true).content;
+                    klon.querySelector("h2").textContent = person.gsx$navn.$t;
+                    klon.querySelector("img").src = person.gsx$billede.$t;
+                    klon.querySelector(".github").textContent = person.gsx$github.$t;
+                    klon.querySelector(".github").href = `https://www.github.com/${person.gsx$github.$t}`;
+
+                    dest.appendChild(klon);
+
+                }
+            });
+        }
+
+        function addEventListenersToButtons() {
+            document.querySelectorAll(".filter").forEach(knap => {
+                knap.addEventListener("click", filtrering);
+            });
+        }
+
+        function filtrering() {
+
+            console.log("Filtrering");
+            filter = this.dataset.køn;
+            document.querySelector("h1").textContent = this.textContent;
+
+            document.querySelectorAll(".filter").forEach(knap => {
+                knap.classList.remove("valgt");
+            });
+            this.classList.add("valgt");
+            visPersonliste();
+        }
+    </script>
+</body></html>

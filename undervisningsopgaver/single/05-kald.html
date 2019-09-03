@@ -170,7 +170,11 @@
                     klon.querySelector("img").src = person.gsx$billede.$t;
 
                     listevisning.appendChild(klon);
-                    location.href = `singleView.html?github=${person.gsx$github.$t}`;
+
+                    listevisning.lastElementChild.addEventListener("click", () => {
+                        location.href = `06-single.html?github=${person.gsx$github.$t}`;
+                    })
+
 
                     /* listevisning.lastElementChild.addEventListener("click", () => {
                          visSingel(person)

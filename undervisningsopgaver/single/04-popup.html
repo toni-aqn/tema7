@@ -171,7 +171,7 @@
 
                     listevisning.appendChild(klon);
                     listevisning.lastElementChild.addEventListener("click", () => {
-                        visSingel(person)
+                        visSingle(person)
                     });
 
                 }
@@ -179,9 +179,9 @@
             });
         }
 
-        function visSingel(person) {
+        function visSingle(person) {
             document.querySelector(".popup").style.display = "block";
-            document.querySelector(".popup .luk").addEventListener("click", lukSingel);
+            document.querySelector(".popup .luk").addEventListener("click", lukSingle);
 
             document.querySelector(".enkeltperson h2").textContent = person.gsx$navn.$t;
             document.querySelector(".enkeltperson img").src = person.gsx$billede.$t;
@@ -192,7 +192,7 @@
 
         }
 
-        function lukSingel() {
+        function lukSingle() {
             document.querySelector(".popup").style.display = "none";
         }
 

@@ -147,7 +147,7 @@
             console.log("visPersonliste kaldt / indhold indsat i template");
             dest.innerHTML = "";
 
-            personliste.feed.entry.forEach(person => {
+            personliste.feed.entry.forEach((person) => {
                 if (filter == "alle" || filter == person.gsx$køn.$t) {
                     const klon = temp.cloneNode(true).content;
                     klon.querySelector("h2").textContent = person.gsx$navn.$t;
@@ -156,9 +156,30 @@
                     klon.querySelector(".github").href = `https://www.github.com/${person.gsx$github.$t}`;
 
                     dest.appendChild(klon);
-
+                    dest.lastElementChild.addEventListener("click", () => {
+                        visSingle(person)
+                    });
                 }
-            });
+            })
+        }
+
+
+        function visSingle(person) {
+            console.log("visSingle kaldt");
+            document.querySelector("#popup").style.display = "block";
+            document.querySelector("#popup .luk").addEventListener("click", lukSingle);
+
+            document.querySelector(".enkeltPerson h2").textContent = person.gsx$navn.$t;
+            document.querySelector(".enkeltPerson .billede").src = person.gsx$billede.$t;
+            document.querySelector(".enkeltPerson .billede").alt = person.gsx$navn.$t;
+            document.querySelector(".enkeltPerson .github").href = `https://github.com/${person.gsx$github.$t}`;
+            document.querySelector(".enkeltPerson .github").textContent = `https://github.com/${person.gsx$github.$t}`;
+            document.querySelector(".enkeltPerson .historie").textContent = person.gsx$historie.$t;
+
+        }
+
+        function lukSingle() {
+            document.querySelector("#popup").style.display = "none";
         }
 
         function addEventListenersToButtons() {

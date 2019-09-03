@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="">
+
+    <style>
+        nav {
+            text-align: center;
+        }
+
+        .valgt {
+            background-color: aquamarine;
+        }
+
+        .data_container {
+            display: grid;
+            grid-gap: 10px;
+            grid-template-columns: repeat(1, 1fr);
+            max-width: 800px;
+            text-align: center;
+
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        h2 {
+            text-align: center;
+            color: gray;
+        }
+
+        article {
+            border: solid 2px gainsboro;
+            padding: 10px;
+            background-color: cornsilk;
+        }
+
+        img {
+            width: 50%;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(250, 235, 215, 0.66);
+        }
+
+        .luk {
+            position: fixed;
+            right: 0;
+            font-size: 2rem;
+        }
+
+        .indhold {
+            width: 70vw;
+            min-height: 50vh;
+            background: #f8f8f2;
+            margin: 4rem auto;
+            padding: 10px;
+        }
+
+        @media screen and (min-width: 600px) {
+            .data_container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media screen and (min-width: 900px) {
+            .data_container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Elevliste</h1>
+    <h2>Alle</h2>
+
+    <nav>
+        <button class="filter valgt" data-køn="alle" data-hold="alle">Alle</button>
+        <button class="filter" data-køn="m" data-hold="alle">Mænd</button>
+        <button class="filter" data-køn="k" data-hold="alle">Kvinder</button>
+        <button class="filter" data-køn="andet" data-hold="alle">Andet</button>
+        <button class="filter" data-hold="a">Hold A</button>
+        <button class="filter" data-hold="b">Hold B</button>
+        <button class="filter" data-køn="k" data-hold="b">kvinder Hold B</button>
+    </nav>
+
+
+
+    <section class="data_container"></section>
+    <template>
+        <article>
+            <h3></h3>
+            <img src="" alt="">
+            <p class="type"></p>
+            <a href=""></a>
+        </article>
+    </template>
+
+    <div class="popup">
+        <button class="luk">X</button>
+        <section class="indhold">
+            <article class="enkeltperson">
+                <h2></h2>
+                <img class="billede" src="" alt="">
+                <p>Github: <a class="github" href=""></a></p>
+            </article>
+        </section>
+    </div>
+
+
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", hentjson);
+
+        let myjson;
+        let filter = "alle";
+        let filterhold = "alle";
+
+        const listevisning = document.querySelector(".data_container");
+        const template = document.querySelector("template");
+
+        async function hentjson() {
+            console.log("hentjson");
+
+            let myRawjson = await fetch("https://spreadsheets.google.com/feeds/list/1Xge7slZ9dEOTCn1Yxl3OE4xgvrXOL8Y_iu3WN1yGB1U/od6/public/values?alt=json");
+
+            myjson = await myRawjson.json();
+            //  console.log(myjson);
+
+            informationer();
+            addEventlistenerToButton();
+
+        }
+
+        function informationer() {
+            console.log("køre");
+
+            listevisning.innerHTML = "";
+
+
+
+            myjson.feed.entry.forEach((person) => {
+                //console.log(person.gsx$github.$t);
+
+
+                //knappen kvinder hold b virker ikke. filterfunktionen virker kun hvis filterhold == person.gsx$hold.$t fjernes..
+
+                if (filter == "alle" || filter == person.gsx$køn.$t || filterhold == person.gsx$hold.$t || filter == person.gsx$køn.$t && filterhold == person.gsx$hold.$t) {
+
+
+                    const klon = template.cloneNode(true).content;
+
+                    klon.querySelector("h3").textContent = ` ${person.gsx$navn.$t}`;
+
+                    klon.querySelector("a").href = ` https://github.com/${person.gsx$github.$t}`;
+                    klon.querySelector("a").textContent = ` https://github.com/${person.gsx$github.$t}`;
+
+                    klon.querySelector("img").src = person.gsx$billede.$t;
+
+                    listevisning.appendChild(klon);
+                    listevisning.lastElementChild.addEventListener("click", () => {
+                        visSingel(person)
+                    });
+
+                }
+
+            });
+        }
+
+        function visSingel(person) {
+            document.querySelector(".popup").style.display = "block";
+            document.querySelector(".popup .luk").addEventListener("click", lukSingel);
+
+            document.querySelector(".enkeltperson h2").textContent = person.gsx$navn.$t;
+            document.querySelector(".enkeltperson img").src = person.gsx$billede.$t;
+            document.querySelector(".enkeltperson a").href = ` https://github.com/${person.gsx$github.$t}`;
+            document.querySelector(".enkeltperson a").textContent = `https://github.com/${person.gsx$github.$t}`;
+
+
+
+        }
+
+        function lukSingel() {
+            document.querySelector(".popup").style.display = "none";
+        }
+
+        function addEventlistenerToButton() {
+            document.querySelectorAll(".filter").forEach(elm => {
+                elm.addEventListener("click", filtrering);
+            });
+        }
+
+        function filtrering() {
+            filter = this.dataset.køn;
+            filterhold = this.dataset.hold;
+            document.querySelector("h2").textContent = this.textContent;
+            document.querySelectorAll(".filter").forEach(elm => {
+                elm.classList.remove("valgt");
+                console.log(`${filter} ${filterhold}`);
+            });
+
+            this.classList.add("valgt");
+
+            informationer();
+        }
+    </script>
+
+</body></html>

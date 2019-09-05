@@ -9,24 +9,65 @@
 
     <style>
         body {
-            background-color: #66737e;
+            background-color: rgb(54, 155, 124);
+        }
+
+        nav {
+            text-align: center;
+            padding-bottom: 15px;
+        }
+
+        .valgt {
+            background-color: #df8c2c;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+        }
+
+        h2 {
+            font-family: Arial, Helvetica, sans-serif;
+            color: #df4d28;
+            font-size: 2em;
+        }
+
+        h3 {
+            font-family: Arial, Helvetica, sans-serif;
+            color: #df4d28;
+        }
+
+        p {
+            color: white;
+        }
+
+        .pris {
+            font-style: italic;
         }
 
         .ret_indhold {
-            text-align: center;
-            border: solid 2px gainsboro;
+            width: 70vw;
+            height: auto;
+            background-color: rgb(92, 190, 143);
+            margin: 122px auto;
             padding: 10px;
-            background-color: cornsilk;
+            text-align: center;
         }
 
         img {
-            width: 50%;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 15px;
+            width: 90%;
+            border-radius: 15px;
         }
 
-        .luk {
+        .lukRet {
             position: relative;
-            font-size: 2rem;
+            font-size: 1.2rem;
         }
+
     </style>
 </head>
 
@@ -83,5 +124,8 @@
         document.querySelector(".lukRet").addEventListener("click", () => {
             history.back();
         });
+
     </script>
-</body></html>
+</body>
+
+</html>

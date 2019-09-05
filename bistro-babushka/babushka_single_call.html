@@ -9,20 +9,39 @@
 
     <style>
         body {
-            background-color: #66737e;
+            background-color: #30875d;
         }
 
         nav {
             text-align: center;
+            padding-bottom: 15px;
         }
 
         .valgt {
-            background-color: aquamarine;
+            background-color: #df8c2c;
         }
 
         h1 {
             text-align: center;
-            color: #b9dcff;
+            color: white;
+        }
+
+        h2 {
+            font-family: Arial, Helvetica, sans-serif;
+            color: #df4d28;
+        }
+
+        h3 {
+            font-family: Arial, Helvetica, sans-serif;
+            color: #df4d28;
+        }
+
+        p {
+            color: white;
+        }
+
+        .pris {
+            font-style: italic;
         }
 
         .ret_container {
@@ -38,42 +57,25 @@
             margin-right: auto;
             padding: 15px;
             width: 90%;
+            border-radius: 15px;
         }
 
 
-
-        /* MOBILE */
-
-
-        article {
-            border: 0.5px solid black;
+        .retter {
             padding: 0px 10px;
-            background-color: #dde3ed;
+            padding-top: 3px;
+            background-color: #ecc46c;
             text-align: center;
-        }
+            border: 0.5px solid rgba(222, 184, 140, 0.63);
+            border-radius: 2px;
 
-        /*.popup {
-            display: none;
-            position: fixed;
-            top: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: rgba(250, 235, 215, 0.66);
-        }
-
-        .popup_indhold {
-            width: 70vw;
-            height: auto;
-            background: #f8f8f2;
-            margin: 122px auto;
-            padding: 10px;
         }
 
         .luk {
             position: relative;
             font-size: 2rem;
         }
-*/
+
         /*********************** MEDIA QUERIES **********************/
 
         @media screen and (min-width: 600px) {
@@ -86,14 +88,6 @@
             .ret_container {
                 grid-template-columns: repeat(3, 1fr);
             }
-
-            /*.popup_indhold {
-                max-width: 850px;
-                height: auto;
-                background: #f8f8f2;
-                margin: 122px auto;
-                padding: 10px;
-            }*/
         }
     </style>
 </head>
@@ -116,7 +110,7 @@
     <section class="ret_container"></section>
 
     <template>
-        <article>
+        <article class="retter">
             <img src="" alt="">
             <h3></h3>
             <p class="kort"></p>

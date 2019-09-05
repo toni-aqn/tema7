@@ -9,20 +9,38 @@
 
     <style>
         body {
-            background-color: #66737e;
+            background-color: #30875d;
         }
 
         nav {
             text-align: center;
+            padding-bottom: 10px;
         }
 
         .valgt {
-            background-color: aquamarine;
+            background-color: #df8c2c;
         }
 
         h1 {
             text-align: center;
-            color: #b9dcff;
+            color: white;
+        }
+
+        h2 {
+            color: #3b1000;
+
+        }
+
+        h3 {
+            color: #3b1000;
+        }
+
+        p {
+            color: color: #3b1000;
+        }
+
+        .pris {
+            font-style: italic;
         }
 
         .ret_container {
@@ -41,14 +59,10 @@
         }
 
 
-
-        /* MOBILE */
-
-
-        article {
+        .retter {
             border: 0.5px solid black;
             padding: 0px 10px;
-            background-color: #dde3ed;
+            background-color: #ecc46c;
             text-align: center;
         }
 
@@ -58,7 +72,7 @@
             top: 0;
             width: 100vw;
             height: 100vh;
-            background-color: rgba(250, 235, 215, 0.66);
+            background-color: rgba(96, 123, 112, 0.38);
         }
 
         .popup_indhold {
@@ -95,7 +109,6 @@
                 padding: 10px;
             }
         }
-
     </style>
 </head>
 
@@ -117,14 +130,13 @@
     <section class="ret_container"></section>
 
     <template>
-        <article>
+        <article class="retter">
             <img src="" alt="">
             <h3></h3>
             <p class="kort"></p>
             <p class="pris"></p>
         </article>
     </template>
-
 
 
     <div class="popup">
@@ -266,11 +278,8 @@
 
             document.querySelector(".popup").style.display = "none";
         }
-
     </script>
-</body>
-
-</html>
+</body></html>
 
 <!--<img class="billede" src="" alt="">
                 <h2></h2>

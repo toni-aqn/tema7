@@ -70,10 +70,11 @@
         }
 
         .luk {
-            position: fixed;
-            right: 0;
+            position: relative;
             font-size: 2rem;
         }
+
+        /*********************** MEDIA QUERIES **********************/
 
         @media screen and (min-width: 600px) {
             .ret_container {
@@ -94,6 +95,7 @@
                 padding: 10px;
             }
         }
+
     </style>
 </head>
 
@@ -127,9 +129,10 @@
 
     <div class="popup">
         <section>
-            <button class="luk">X</button>
 
             <article class="popup_indhold">
+                <button class="luk">X</button>
+
 
                 <img class="billede" src="" alt="">
                 <h2></h2>
@@ -263,10 +266,13 @@
 
             document.querySelector(".popup").style.display = "none";
         }
-    </script>
-</body></html>
 
-  <!--<img class="billede" src="" alt="">
+    </script>
+</body>
+
+</html>
+
+<!--<img class="billede" src="" alt="">
                 <h2></h2>
                 <p class="lang"></p>
                 <p class="pris"></p>-->

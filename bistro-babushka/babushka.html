@@ -8,9 +8,8 @@
     <link rel="stylesheet" href="">
 
     <style>
-        h1 {
-            text-align: center;
-            color: #b9dcff;
+        body {
+            background-color: #66737e;
         }
 
         nav {
@@ -21,6 +20,18 @@
             background-color: aquamarine;
         }
 
+        h1 {
+            text-align: center;
+            color: #b9dcff;
+        }
+
+        .ret_container {
+            display: grid;
+            grid-gap: 10px;
+            grid-template-columns: repeat(1, 1fr);
+            text-align: center;
+        }
+
         img {
             display: block;
             margin-left: auto;
@@ -29,9 +40,7 @@
             width: 90%;
         }
 
-        body {
-            background-color: #66737e;
-        }
+
 
         /* MOBILE */
 
@@ -43,7 +52,7 @@
             text-align: center;
         }
 
-        /*.popup {
+        .popup {
             display: none;
             position: fixed;
             top: 0;
@@ -52,19 +61,39 @@
             background-color: rgba(250, 235, 215, 0.66);
         }
 
+        .popup_indhold {
+            width: 70vw;
+            height: auto;
+            background: #f8f8f2;
+            margin: 122px auto;
+            padding: 10px;
+        }
+
         .luk {
             position: fixed;
             right: 0;
             font-size: 2rem;
         }
 
-        .popup_indhold {
-            width: 70vw;
-            min-height: 50vh;
-            background: #f8f8f2;
-            margin: 4rem auto;
-            padding: 10px;
-        }*/
+        @media screen and (min-width: 600px) {
+            .ret_container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media screen and (min-width: 900px) {
+            .ret_container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .popup_indhold {
+                max-width: 1500px;
+                height: auto;
+                background: #f8f8f2;
+                margin: 122px auto;
+                padding: 10px;
+            }
+        }
     </style>
 </head>
 
@@ -94,36 +123,41 @@
         </article>
     </template>
 
-    <!-- <div class="popup">
-        <button class="luk">X</button>
-        <section class="popup_indhold">
-            <article class="enkelt_ret">
+
+
+    <div class="popup">
+        <section>
+            <button class="luk">X</button>
+
+            <article class="popup_indhold">
 
                 <img class="billede" src="" alt="">
                 <h2></h2>
                 <p class="lang"></p>
+                <p class="pris"></p>
+
             </article>
         </section>
-    </div>-->
+    </div>
 
 
     <script>
-        //NAV//
+        //************NAV************//
         let filter = "alle";
 
 
-        //Variabler og konstanter//
+        //************Variabler og konstanter*************//
 
         let retter = [];
         const retDest = document.querySelector(".ret_container");
         const retTemp = document.querySelector("template");
 
 
-        //DomContentLoaded, indlæsning af json fil//
+        //***********DomContentLoaded, indlæsning af json***********//
         document.addEventListener("DOMContentLoaded", hentJson);
 
         async function hentJson() {
-            console.log("hentJson kaldes efter DomContentLoaded");
+            console.log("DomContentLoaded kalder -> hentJson");
 
             let jsonData = await fetch("https://spreadsheets.google.com/feeds/list/17Dd7DvkPaFamNUdUKlrFgnH6POvBJXac7qyiS6zNRw0/od6/public/values?alt=json");
             retter = await jsonData.json();
@@ -132,9 +166,11 @@
             addEventListenersToButtons();
         }
 
+        //************ TEMPLATE *************//
+
         //template med appendChild på section modtageren, her retDest//
         function visRetter() {
-            console.log("async function hentJson -> kalder -> visRetter");
+            console.log("visRetter kaldt");
 
             retDest.innerHTML = "";
 
@@ -143,7 +179,7 @@
                 if (filter == "alle" || filter == ret.gsx$kategori.$t) {
 
                     const klon = retTemp.cloneNode(true).content;
-                    klon.querySelector("img").src = `imgs/small/${ret.gsx$billede.$t}-sm.jpg`;
+                    klon.querySelector("img").src = `imgs/large/${ret.gsx$billede.$t}.jpg`;
                     klon.querySelector("img").alt = ret.gsx$navn.$t;
                     klon.querySelector("h3").textContent = ret.gsx$navn.$t;
                     klon.querySelector(".kort").textContent = ret.gsx$kort.$t;
@@ -151,19 +187,27 @@
 
                     retDest.appendChild(klon);
 
-                    /* retDest.lastElementChild.addEventListener("click", () => {
-                         visRet(ret)
-                     });*/
+
+                    //Når der klikkes på en ret kaldes funktionen visRet "popup funktion"//
+
+                    retDest.lastElementChild.addEventListener("click", () => {
+                        visRet(ret)
+                    });
 
                 }
             });
 
         }
 
-        //Jeg laver en eventlistener på alle kategori knapperne med classen filter og siger for hver knap skal funktionen filtrering kaldes når der trykkes. Selve functionen som jeg har kaldt "addEventListenersToButtons kaldes oppe i min async function når json dataet bliver loaded ind.
+        //*********************FILTRERING*************************//
+
+
+        //Jeg laver en eventlistener på alle kategori knapperne med classen filter og siger for hver knap skal funktionen filtrering kaldes når der trykkes. Selve funktionen som jeg har kaldt "addEventListenersToButtons kaldes oppe i min async function når json dataet bliver loaded ind.
 
         function addEventListenersToButtons() {
-            console.log("async function hentJson -> kalder -> addEventListenersToButtons")
+
+            console.log("async function hentJson kalder -> addEventListenersToButtons")
+
             document.querySelectorAll(".filter").forEach(knap => {
                 knap.addEventListener("click", filtrering);
             })
@@ -195,13 +239,37 @@
         }
 
 
-        //function til at vise popup view af en ret der klikkes på
+        //********************** POPUP **************************//
 
-        /*function visRet() {
+        function visRet(ret) {
             console.log("visRet kaldt");
-        }*/
+
+            document.querySelector(".popup").style.display = "block";
+
+            //POPUP TEMPLATE//
+
+            document.querySelector(".popup img").src = `imgs/large/${ret.gsx$billede.$t}.jpg`;
+            document.querySelector(".popup h2").textContent = ret.gsx$navn.$t;
+            document.querySelector(".popup .lang").textContent = ret.gsx$lang.$t;
+            document.querySelector(".popup .pris").textContent = `Pris: ${ret.gsx$pris.$t},-`;
+
+
+            document.querySelector(".popup .luk").addEventListener("click", lukPopup);
+
+        }
+
+        function lukPopup() {
+            console.log("popup vindue lukket");
+
+            document.querySelector(".popup").style.display = "none";
+        }
     </script>
 </body></html>
+
+  <!--<img class="billede" src="" alt="">
+                <h2></h2>
+                <p class="lang"></p>
+                <p class="pris"></p>-->
 
 
 <!--

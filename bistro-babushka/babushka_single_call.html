@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="da">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bistro Babushka</title>
+    <link rel="stylesheet" href="">
+
+    <style>
+        body {
+            background-color: #66737e;
+        }
+
+        nav {
+            text-align: center;
+        }
+
+        .valgt {
+            background-color: aquamarine;
+        }
+
+        h1 {
+            text-align: center;
+            color: #b9dcff;
+        }
+
+        .ret_container {
+            display: grid;
+            grid-gap: 10px;
+            grid-template-columns: repeat(1, 1fr);
+            text-align: center;
+        }
+
+        img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 15px;
+            width: 90%;
+        }
+
+
+
+        /* MOBILE */
+
+
+        article {
+            border: 0.5px solid black;
+            padding: 0px 10px;
+            background-color: #dde3ed;
+            text-align: center;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(250, 235, 215, 0.66);
+        }
+
+        .popup_indhold {
+            width: 70vw;
+            height: auto;
+            background: #f8f8f2;
+            margin: 122px auto;
+            padding: 10px;
+        }
+
+        .luk {
+            position: relative;
+            font-size: 2rem;
+        }
+
+        /*********************** MEDIA QUERIES **********************/
+
+        @media screen and (min-width: 600px) {
+            .ret_container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media screen and (min-width: 900px) {
+            .ret_container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .popup_indhold {
+                max-width: 850px;
+                height: auto;
+                background: #f8f8f2;
+                margin: 122px auto;
+                padding: 10px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <h1>Alle retter</h1>
+
+    <nav>
+        <button class="filter valgt" data-kategori="alle">Alle retter</button>
+        <button class="filter" data-kategori="forretter">Forretter</button>
+        <button class="filter" data-kategori="hovedretter">Hovedretter</button>
+        <button class="filter" data-kategori="desserter">Desserter</button>
+        <button class="filter" data-kategori="drikkevarer">Drikkevarer</button>
+        <button class="filter" data-kategori="sideorders">Sideorders</button>
+
+    </nav>
+
+
+    <section class="ret_container"></section>
+
+    <template>
+        <article>
+            <img src="" alt="">
+            <h3></h3>
+            <p class="kort"></p>
+            <p class="pris"></p>
+        </article>
+    </template>
+
+
+
+    <div class="popup">
+        <section>
+
+            <article class="popup_indhold">
+                <button class="luk">X</button>
+
+
+                <img class="billede" src="" alt="">
+                <h2></h2>
+                <p class="lang"></p>
+                <p class="pris"></p>
+
+            </article>
+        </section>
+    </div>
+
+
+    <script>
+        //************NAV************//
+        let filter = "alle";
+
+
+        //************Variabler og konstanter*************//
+
+        let retter = [];
+        const retDest = document.querySelector(".ret_container");
+        const retTemp = document.querySelector("template");
+
+
+        //***********DomContentLoaded, indlæsning af json***********//
+        document.addEventListener("DOMContentLoaded", hentJson);
+
+        async function hentJson() {
+            console.log("DomContentLoaded kalder -> hentJson");
+
+            let jsonData = await fetch("https://spreadsheets.google.com/feeds/list/17Dd7DvkPaFamNUdUKlrFgnH6POvBJXac7qyiS6zNRw0/od6/public/values?alt=json");
+            retter = await jsonData.json();
+
+            visRetter();
+            addEventListenersToButtons();
+        }
+
+        //************ TEMPLATE *************//
+
+        //template med appendChild på section modtageren, her retDest//
+        function visRetter() {
+            console.log("visRetter kaldt");
+
+            retDest.innerHTML = "";
+
+            retter.feed.entry.forEach((ret) => {
+
+                if (filter == "alle" || filter == ret.gsx$kategori.$t) {
+
+                    const klon = retTemp.cloneNode(true).content;
+                    klon.querySelector("img").src = `imgs/large/${ret.gsx$billede.$t}.jpg`;
+                    klon.querySelector("img").alt = ret.gsx$navn.$t;
+                    klon.querySelector("h3").textContent = ret.gsx$navn.$t;
+                    klon.querySelector(".kort").textContent = ret.gsx$kort.$t;
+                    klon.querySelector(".pris").textContent = `Pris: ${ret.gsx$pris.$t},-`;
+
+                    retDest.appendChild(klon);
+
+
+                    //Når der klikkes på en ret kaldes funktionen visRet "popup funktion"//
+
+                    retDest.lastElementChild.addEventListener("click", () => {
+                        visRet(ret)
+                    });
+
+                }
+            });
+
+        }
+
+        //*********************FILTRERING*************************//
+
+
+        //Jeg laver en eventlistener på alle kategori knapperne med classen filter og siger for hver knap skal funktionen filtrering kaldes når der trykkes. Selve funktionen som jeg har kaldt "addEventListenersToButtons kaldes oppe i min async function når json dataet bliver loaded ind.
+
+        function addEventListenersToButtons() {
+
+            console.log("async function hentJson kalder -> addEventListenersToButtons")
+
+            document.querySelectorAll(".filter").forEach(knap => {
+                knap.addEventListener("click", filtrering);
+            })
+        }
+
+        function filtrering() {
+            console.log("filtrering kaldt efter klik på knap");
+
+            //Indholdet i min variabel filter får et nyt dataset.kategori sat ind som overskriver den forrige default "alle" -> dataset.kategori ændres alt efter hvilken knap der trykkes på. Da der er en eventListener forEach knap med classen .filter
+
+            filter = this.dataset.kategori;
+
+            //Min h1 overskrift ændres også til navnet
+
+            document.querySelector("h1").textContent = this.textContent;
+
+
+            //Remove og add class på knapper -> css styling
+            document.querySelectorAll(".filter").forEach(knap => {
+                knap.classList.remove("valgt");
+            });
+
+            this.classList.add("valgt");
+
+            //visRetter kaldes igen, nu med det nye dataset.kategori
+            visRetter();
+
+
+        }
+
+
+        //********************** POPUP **************************//
+
+        function visRet(ret) {
+            console.log("visRet kaldt");
+
+            document.querySelector(".popup").style.display = "block";
+
+            //POPUP TEMPLATE//
+
+            document.querySelector(".popup img").src = `imgs/large/${ret.gsx$billede.$t}.jpg`;
+            document.querySelector(".popup h2").textContent = ret.gsx$navn.$t;
+            document.querySelector(".popup .lang").textContent = ret.gsx$lang.$t;
+            document.querySelector(".popup .pris").textContent = `Pris: ${ret.gsx$pris.$t},-`;
+
+
+            document.querySelector(".popup .luk").addEventListener("click", lukPopup);
+
+        }
+
+        function lukPopup() {
+            console.log("popup vindue lukket");
+
+            document.querySelector(".popup").style.display = "none";
+        }
+
+    </script>
+</body>
+
+</html>
+
+<!--<img class="billede" src="" alt="">
+                <h2></h2>
+                <p class="lang"></p>
+                <p class="pris"></p>-->
+
+
+<!--
+id
+kategori
+navn
+pris
+kort
+lang
+oprindelse
+billede
+-->

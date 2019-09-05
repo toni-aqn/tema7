@@ -52,7 +52,7 @@
             text-align: center;
         }
 
-        .popup {
+        /*.popup {
             display: none;
             position: fixed;
             top: 0;
@@ -73,7 +73,7 @@
             position: relative;
             font-size: 2rem;
         }
-
+*/
         /*********************** MEDIA QUERIES **********************/
 
         @media screen and (min-width: 600px) {
@@ -87,15 +87,14 @@
                 grid-template-columns: repeat(3, 1fr);
             }
 
-            .popup_indhold {
+            /*.popup_indhold {
                 max-width: 850px;
                 height: auto;
                 background: #f8f8f2;
                 margin: 122px auto;
                 padding: 10px;
-            }
+            }*/
         }
-
     </style>
 </head>
 
@@ -127,7 +126,7 @@
 
 
 
-    <div class="popup">
+    <!--<div class="popup">
         <section>
 
             <article class="popup_indhold">
@@ -141,7 +140,7 @@
 
             </article>
         </section>
-    </div>
+    </div>-->
 
 
     <script>
@@ -194,7 +193,7 @@
                     //Når der klikkes på en ret kaldes funktionen visRet "popup funktion"//
 
                     retDest.lastElementChild.addEventListener("click", () => {
-                        visRet(ret)
+                        location.href = `babushka_single_view.html?id=${ret.gsx$id.$t}`;
                     });
 
                 }
@@ -244,7 +243,7 @@
 
         //********************** POPUP **************************//
 
-        function visRet(ret) {
+        /*function visRet(ret) {
             console.log("visRet kaldt");
 
             document.querySelector(".popup").style.display = "block";
@@ -265,12 +264,9 @@
             console.log("popup vindue lukket");
 
             document.querySelector(".popup").style.display = "none";
-        }
-
+        }*/
     </script>
-</body>
-
-</html>
+</body></html>
 
 <!--<img class="billede" src="" alt="">
                 <h2></h2>

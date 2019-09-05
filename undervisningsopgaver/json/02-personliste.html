@@ -1,6 +1,7 @@
+<!DOCTYPE html>
+<html>
 
-
-<!DOCTYPE html><html><head>
+<head>
     <title>Visalle</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -46,10 +47,15 @@
                     grid-template-columns: repeat(3, 1fr);
                 }
             }
+
     </style>
 </head>
 
-<body> <template>
+<body>
+
+    <section class="modtager"></section>
+
+    <template>
         <article>
             <h2></h2>
             <a class="github" target="_blank" href=""></a>
@@ -57,7 +63,7 @@
 
         </article>
     </template>
-    <section class="modtager"></section>
+
     <script>
         let personliste = [];
         document.addEventListener("DOMContentLoaded", getJson);
@@ -88,6 +94,8 @@
                 dest.appendChild(klon);
             });
         }
-    </script>
-</body></html>
 
+    </script>
+</body>
+
+</html>

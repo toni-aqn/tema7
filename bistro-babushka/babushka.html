@@ -8,6 +8,19 @@
     <link rel="stylesheet" href="">
 
     <style>
+        h1 {
+            text-align: center;
+            color: #b9dcff;
+        }
+
+        nav {
+            text-align: center;
+        }
+
+        .valgt {
+            background-color: aquamarine;
+        }
+
         img {
             display: block;
             margin-left: auto;
@@ -22,11 +35,6 @@
 
         /* MOBILE */
 
-        .modtager {
-            display: grid;
-            grid-gap: 20px;
-            grid-template-columns: repeat (1, 1fr);
-        }
 
         article {
             border: 0.5px solid black;
@@ -34,10 +42,46 @@
             background-color: #dde3ed;
             text-align: center;
         }
+
+        /*.popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(250, 235, 215, 0.66);
+        }
+
+        .luk {
+            position: fixed;
+            right: 0;
+            font-size: 2rem;
+        }
+
+        .popup_indhold {
+            width: 70vw;
+            min-height: 50vh;
+            background: #f8f8f2;
+            margin: 4rem auto;
+            padding: 10px;
+        }*/
     </style>
 </head>
 
 <body>
+
+    <h1>Alle retter</h1>
+
+    <nav>
+        <button class="filter valgt" data-kategori="alle">Alle retter</button>
+        <button class="filter" data-kategori="forretter">Forretter</button>
+        <button class="filter" data-kategori="hovedretter">Hovedretter</button>
+        <button class="filter" data-kategori="desserter">Desserter</button>
+        <button class="filter" data-kategori="drikkevarer">Drikkevarer</button>
+        <button class="filter" data-kategori="sideorders">Sideorders</button>
+
+    </nav>
+
 
     <section class="ret_container"></section>
 
@@ -50,36 +94,112 @@
         </article>
     </template>
 
+    <!-- <div class="popup">
+        <button class="luk">X</button>
+        <section class="popup_indhold">
+            <article class="enkelt_ret">
+
+                <img class="billede" src="" alt="">
+                <h2></h2>
+                <p class="lang"></p>
+            </article>
+        </section>
+    </div>-->
+
+
     <script>
+        //NAV//
+        let filter = "alle";
+
+
+        //Variabler og konstanter//
+
         let retter = [];
         const retDest = document.querySelector(".ret_container");
         const retTemp = document.querySelector("template");
 
+
+        //DomContentLoaded, indlæsning af json fil//
         document.addEventListener("DOMContentLoaded", hentJson);
 
         async function hentJson() {
-            console.log("hentJson");
+            console.log("hentJson kaldes efter DomContentLoaded");
 
             let jsonData = await fetch("https://spreadsheets.google.com/feeds/list/17Dd7DvkPaFamNUdUKlrFgnH6POvBJXac7qyiS6zNRw0/od6/public/values?alt=json");
             retter = await jsonData.json();
 
             visRetter();
+            addEventListenersToButtons();
         }
 
+        //template med appendChild på section modtageren, her retDest//
         function visRetter() {
-            console.log("visRetter kaldt");
-            retter.feed.entry.forEach((ret) => {
-                const klon = retTemp.cloneNode(true).content;
-                klon.querySelector("img").src = `imgs/small/${ret.gsx$billede.$t}-sm.jpg`;
-                klon.querySelector("img").alt = ret.gsx$navn.$t;
-                klon.querySelector("h3").textContent = ret.gsx$navn.$t;
-                klon.querySelector(".kort").textContent = ret.gsx$kort.$t;
-                klon.querySelector(".pris").textContent = `Pris: ${ret.gsx$pris.$t},-`;
+            console.log("async function hentJson -> kalder -> visRetter");
 
-                retDest.appendChild(klon);
+            retDest.innerHTML = "";
+
+            retter.feed.entry.forEach((ret) => {
+
+                if (filter == "alle" || filter == ret.gsx$kategori.$t) {
+
+                    const klon = retTemp.cloneNode(true).content;
+                    klon.querySelector("img").src = `imgs/small/${ret.gsx$billede.$t}-sm.jpg`;
+                    klon.querySelector("img").alt = ret.gsx$navn.$t;
+                    klon.querySelector("h3").textContent = ret.gsx$navn.$t;
+                    klon.querySelector(".kort").textContent = ret.gsx$kort.$t;
+                    klon.querySelector(".pris").textContent = `Pris: ${ret.gsx$pris.$t},-`;
+
+                    retDest.appendChild(klon);
+
+                    /* retDest.lastElementChild.addEventListener("click", () => {
+                         visRet(ret)
+                     });*/
+
+                }
             });
 
         }
+
+        //Jeg laver en eventlistener på alle kategori knapperne med classen filter og siger for hver knap skal funktionen filtrering kaldes når der trykkes. Selve functionen som jeg har kaldt "addEventListenersToButtons kaldes oppe i min async function når json dataet bliver loaded ind.
+
+        function addEventListenersToButtons() {
+            console.log("async function hentJson -> kalder -> addEventListenersToButtons")
+            document.querySelectorAll(".filter").forEach(knap => {
+                knap.addEventListener("click", filtrering);
+            })
+        }
+
+        function filtrering() {
+            console.log("filtrering kaldt efter klik på knap");
+
+            //Indholdet i min variabel filter får et nyt dataset.kategori sat ind som overskriver den forrige default "alle" -> dataset.kategori ændres alt efter hvilken knap der trykkes på. Da der er en eventListener forEach knap med classen .filter
+
+            filter = this.dataset.kategori;
+
+            //Min h1 overskrift ændres også til navnet
+
+            document.querySelector("h1").textContent = this.textContent;
+
+
+            //Remove og add class på knapper -> css styling
+            document.querySelectorAll(".filter").forEach(knap => {
+                knap.classList.remove("valgt");
+            });
+
+            this.classList.add("valgt");
+
+            //visRetter kaldes igen, nu med det nye dataset.kategori
+            visRetter();
+
+
+        }
+
+
+        //function til at vise popup view af en ret der klikkes på
+
+        /*function visRet() {
+            console.log("visRet kaldt");
+        }*/
     </script>
 </body></html>
 
